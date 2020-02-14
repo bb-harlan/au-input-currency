@@ -1,3 +1,29 @@
 <template>
-  <h1>${message}</h1>
+  <require from="./au-input-currency"></require>
+  <require from="./au-currency-converter"></require>
+  <style>
+    .font {
+      font-family: serif;
+      font-size: medium;
+    }
+
+    .rightAlign {
+      text-align: right;
+    }
+  </style>
+  <h1>Aurelia <span style="font-family: courier;">au-input-currency</span> custom tag</h1>
+  <p>currencyAmt: ${currencyAmt};</p>
+  <label>Currency amount:
+    <au-input-currency classes-string.one-time="'font rightAlign'"
+                       max-length.one-time="15"
+                       currency-amt.to-view="currencyAmt"
+                       on-updated-callback.call="onInputDone(newCurrencyAmt)">
+    </au-input-currency>
+  </label>
+<!--
+  <form method="dialog">
+    <label>Form text item #1:<input type="text" max-chars="20"></label>
+    <label>Form text item #2:<input type="text" max-chars="20"></label>
+  </form>
+-->
 </template>
