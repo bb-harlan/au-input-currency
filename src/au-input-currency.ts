@@ -32,7 +32,7 @@ export class AuInputCurrency {
     let newCurrencyAmt = parseFloat(this.inputCurrencyElement.value);
     if (newCurrencyAmt == this.originalCurrencyAmt) {
       // user did not change the input
-      this.inputCurrencyElement.value = this.originalInputValue;
+      this.inputCurrencyElement.value = this.originalInputValue; // formatted string
     }
     else {
       // call the callback function passing the user-updated currency amount
@@ -53,6 +53,7 @@ export class AuInputCurrency {
       let selectionStart = this.inputCurrencyElement.selectionStart;
       if (selectionStart == 0) {
         if (this.inputCurrencyElement.value.charAt(0) != "-") {
+          // let the minus sign through
           return true;
         }
         else {
