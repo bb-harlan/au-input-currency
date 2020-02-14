@@ -89,17 +89,41 @@ export class AuInputCurrency {
       return true; // else let "Backspace" pass through
     }
     else if (keyboardEvent.key >= "0" && keyboardEvent.key <= "9") {
-      if (this.inputCurrencyElement.selectionStart == 0 && this.inputCurrencyElement.value.charAt(0) == "-") {
-        // no digits can precede minus sign
-        return false;
-      }
-      else if (keyboardEvent.key == "0") {
-        // do not allow a leading zero with or without a leading minus sign
-        if (this.inputCurrencyElement.selectionStart == 0 && this.inputCurrencyElement.value.charAt(0) != "-") {
-          // no leading zero permitted
+      let indexOfDecimalPoint = this.inputCurrencyElement.value.indexOf(".");
+      if (this.inputCurrencyElement.selectionStart <= indexOfDecimalPoint) {
+        // in interger part
+        if (this.inputCurrencyElement.selectionStart == 0 && this.inputCurrencyElement.value.charAt(0) == "-") {
+          // no digits can precede minus sign
           return false;
         }
-        else if (this.inputCurrencyElement.selectionStart == 1 && this.inputCurrencyElement.value.charAt(0) == "-") {
+        else if (keyboardEvent.key == "0") {
+          // do not allow a leading zero with or without a leading minus sign
+          if (this.inputCurrencyElement.selectionStart == 0 && this.inputCurrencyElement.value.charAt(0) != "-") {
+            // no leading zero permitted
+            return false;
+          }
+          else if (this.inputCurrencyElement.selectionStart == 1 && this.inputCurrencyElement.value.charAt(0) == "-") {
+            return false;
+          }
+        }
+      }
+      else {
+        // in fraction part
+        if (this.inputCurrencyElement.selectionStart == this.inputCurrencyElement.value.length) {
+          return false;
+        }
+        else {
+          let targetSubstr = this.inputCurrencyElement.value.substring(indexOfDecimalPoint);
+          if (this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 1) {
+            let replacementSubstr = "." + keyboardEvent.key + this.inputCurrencyElement.value.charAt(indexOfDecimalPoint + 1);
+            this.inputCurrencyElement.value = this.inputCurrencyElement.value.replace(targetSubstr, replacementSubstr);
+          }
+          else {
+            // this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 2
+            let replacementSubstr = "." + this.inputCurrencyElement.value.charAt(indexOfDecimalPoint + 1) + keyboardEvent.key;
+            this.inputCurrencyElement.value = this.inputCurrencyElement.value.replace(targetSubstr, replacementSubstr);
+          }
+          this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint + 2, indexOfDecimalPoint + 2);
           return false;
         }
       }

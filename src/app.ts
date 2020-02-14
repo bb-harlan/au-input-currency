@@ -1,5 +1,5 @@
 export class App {
-  currencyAmt: number = -0.67;
+  currencyAmt: number = 12345.67;
 
   onInputDone(newCurrencyAmt): void {
     this.currencyAmt = newCurrencyAmt;
