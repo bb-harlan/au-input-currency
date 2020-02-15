@@ -41,55 +41,8 @@ export class AuInputCurrency {
   }
   onKeydown(keyboardEvent) {
     console.log(`\n*** keyboardEvent.type: "${keyboardEvent.type}"; ***************`);
-    if (keyboardEvent.key == ".") {
-      // move text cursor to first digit past decimal point,
-      // but don't let period pass through
-      let newInsertionPoint = this.inputCurrencyElement.value.indexOf(".") + 1;
-      this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
-      return false;
-    }
-    else if (keyboardEvent.key == "-") {
-      // one and only one minus sign allowed, and it must be the leading char
-      let selectionStart = this.inputCurrencyElement.selectionStart;
-      if (selectionStart == 0) {
-        if (this.inputCurrencyElement.value.charAt(0) != "-") {
-          // let the minus sign through
-          return true;
-        }
-        else {
-          // move insertion point past minus sign and disallow minus sign
-          this.inputCurrencyElement.setSelectionRange(selectionStart + 1, selectionStart + 1);
-          return false;
-        }
-      }
-      else {
-        //no non-leading minus sign allowed
-        return false;
-      }
-    }
-    else if (keyboardEvent.key == "Delete") {
-      let charAtCursor = this.inputCurrencyElement.value.charAt(this.inputCurrencyElement.selectionStart);
-      if (charAtCursor == ".") {
-        // treat Delete as ArrowRight,
-        // but don't let "Delete" pass through
-        let newInsertionPoint = this.inputCurrencyElement.selectionStart + 1;
-        this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
-        return false; // don't let "Delete" pass through
-      }
-      return true; // else let "Delete" pass through
-    }
-    else if (keyboardEvent.key == "Backspace") {
-      let charBeforeCursor = this.inputCurrencyElement.value.charAt(this.inputCurrencyElement.selectionStart - 1);
-      if (charBeforeCursor == ".") {
-        // treat "Backspace" as ArrowLeft
-        let newInsertionPoint = this.inputCurrencyElement.selectionStart - 1;
-        this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
-        return false; // don't let "Backspace" pass through
-      }
-      return true; // else let "Backspace" pass through
-    }
-    else if (keyboardEvent.key >= "0" && keyboardEvent.key <= "9") {
-      let indexOfDecimalPoint = this.inputCurrencyElement.value.indexOf(".");
+    let indexOfDecimalPoint = this.inputCurrencyElement.value.indexOf(".");
+    if (keyboardEvent.key >= "0" && keyboardEvent.key <= "9") {
       if (this.inputCurrencyElement.selectionStart <= indexOfDecimalPoint) {
         // in interger part
         if (this.inputCurrencyElement.selectionStart == 0 && this.inputCurrencyElement.value.charAt(0) == "-") {
@@ -129,6 +82,77 @@ export class AuInputCurrency {
       }
       return true; // let it pass through
     }
+    else if (keyboardEvent.key == ".") {
+      // move text cursor to first digit past decimal point,
+      // but don't let period pass through
+      let newInsertionPoint = this.inputCurrencyElement.value.indexOf(".") + 1;
+      this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
+      return false;
+    }
+    else if (keyboardEvent.key == "-") {
+      // one and only one minus sign allowed, and it must be the leading char
+      let selectionStart = this.inputCurrencyElement.selectionStart;
+      if (selectionStart == 0) {
+        if (this.inputCurrencyElement.value.charAt(0) != "-") {
+          // let the minus sign through
+          return true;
+        }
+        else {
+          // move insertion point past minus sign and disallow minus sign
+          this.inputCurrencyElement.setSelectionRange(selectionStart + 1, selectionStart + 1);
+          return false;
+        }
+      }
+      else {
+        //no non-leading minus sign allowed
+        return false;
+      }
+    }
+    else if (keyboardEvent.key == "Delete") {
+      if (this.inputCurrencyElement.selectionStart <= indexOfDecimalPoint) {
+        // in interger part
+        let charAtCursor = this.inputCurrencyElement.value.charAt(this.inputCurrencyElement.selectionStart);
+        if (charAtCursor == ".") {
+          // treat Delete as ArrowRight,
+          // but don't let "Delete" pass through
+          let newInsertionPoint = this.inputCurrencyElement.selectionStart + 1;
+          this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
+          return false; // don't let "Delete" pass through
+        }
+        else {
+          return true; // let "Delete" pass through
+        }
+      }
+      else {
+        // in fraction part
+        let targetSubstr = this.inputCurrencyElement.value.substring(indexOfDecimalPoint);
+        if (this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 1) {
+          let replacementSubstr = "." + this.inputCurrencyElement.value.charAt(indexOfDecimalPoint + 2) + "0";
+          this.inputCurrencyElement.value = this.inputCurrencyElement.value.replace(targetSubstr, replacementSubstr);
+          this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint + 1, indexOfDecimalPoint + 1);
+        }
+        else if (this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 2) {
+          // this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 2
+          let replacementSubstr = "." + this.inputCurrencyElement.value.charAt(indexOfDecimalPoint + 1) + "0";
+          this.inputCurrencyElement.value = this.inputCurrencyElement.value.replace(targetSubstr, replacementSubstr);
+          this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint + 2, indexOfDecimalPoint + 2);
+        }
+        else {
+          // (this.inputCurrencyElement.selectionStart == this.inputCurrencyElement.value.length)
+        }
+      return false;
+      }
+    }
+    else if (keyboardEvent.key == "Backspace") {
+      let charBeforeCursor = this.inputCurrencyElement.value.charAt(this.inputCurrencyElement.selectionStart - 1);
+      if (charBeforeCursor == ".") {
+        // treat "Backspace" as ArrowLeft
+        let newInsertionPoint = this.inputCurrencyElement.selectionStart - 1;
+        this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
+        return false; // don't let "Backspace" pass through
+      }
+      return true; // else let "Backspace" pass through
+    }
     else if (keyboardEvent.key == "Enter" ||
       keyboardEvent.key == "Tab" ||
       keyboardEvent.key == "Escape" ||
@@ -136,8 +160,10 @@ export class AuInputCurrency {
       keyboardEvent.key == "ArrowRight") {
       return true; // let these pass through
     }
-    // any other key is unacceptable; filter it out.
-    return false; // don't let them pass through
+    else {
+      // any other key is unacceptable; filter it out.
+      return false; // don't let them pass through
+    }
     /*
     keyboardEvent.preventDefault();
     keyboardEvent.stopPropagation()

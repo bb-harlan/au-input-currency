@@ -2,28 +2,32 @@
   <require from="./au-input-currency"></require>
   <require from="./au-currency-converter"></require>
   <style>
+    h1 {
+      margin-left: 2pc;
+    }
+    h2 {
+      margin-left: 4pc;
+    }
+    p, label {
+      margin-left: 6pc;
+    }
     .font {
       font-family: serif;
       font-size: medium;
     }
-
     .rightAlign {
       text-align: right;
     }
   </style>
-  <h1>Aurelia <span style="font-family: courier;">au-input-currency</span> custom tag</h1>
-  <p>currencyAmt: ${currencyAmt};</p>
+  <h1>Aurelia <span style="font-family: courier;">au-input-currency</span> custom element</h1>
+  <h2>Input data source in view-model (i.e., <span style="font-family: courier;">value.to-view=aCurrencyAmt</span>)</h2>
+  <p style="font-family: courier;">aCurrencyAmt: number = ${aCurrencyAmt};</p>
+  <h2>Aurelia custom currency input component in view</h2>
   <label>Currency amount:
     <au-input-currency classes-string.one-time="'font rightAlign'"
                        max-length.one-time="15"
-                       currency-amt.to-view="currencyAmt"
+                       currency-amt.to-view="aCurrencyAmt"
                        on-updated-callback.call="onInputDone(newCurrencyAmt)">
     </au-input-currency>
   </label>
-<!--
-  <form method="dialog">
-    <label>Form text item #1:<input type="text" max-chars="20"></label>
-    <label>Form text item #2:<input type="text" max-chars="20"></label>
-  </form>
--->
 </template>
