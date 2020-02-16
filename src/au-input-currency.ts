@@ -109,19 +109,15 @@ export class AuInputCurrency {
       }
     }
     else if (keyboardEvent.key == "Delete") {
-      if (this.inputCurrencyElement.selectionStart <= indexOfDecimalPoint) {
+      if (this.inputCurrencyElement.selectionStart < indexOfDecimalPoint) {
         // in interger part
-        let charAtCursor = this.inputCurrencyElement.value.charAt(this.inputCurrencyElement.selectionStart);
-        if (charAtCursor == ".") {
-          // treat Delete as ArrowRight,
-          // but don't let "Delete" pass through
-          let newInsertionPoint = this.inputCurrencyElement.selectionStart + 1;
-          this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
-          return false; // don't let "Delete" pass through
-        }
-        else {
-          return true; // let "Delete" pass through
-        }
+        return true; // let "Delete" pass through
+      }
+      else if (this.inputCurrencyElement.selectionStart == indexOfDecimalPoint) {
+        // on decimal point, treat Delete as ArrowRight,
+        // but don't let "Delete" pass through
+        this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint + 1, indexOfDecimalPoint + 1);
+        return false;
       }
       else {
         // in fraction part
@@ -137,21 +133,34 @@ export class AuInputCurrency {
           this.inputCurrencyElement.value = this.inputCurrencyElement.value.replace(targetSubstr, replacementSubstr);
           this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint + 2, indexOfDecimalPoint + 2);
         }
-        else {
-          // (this.inputCurrencyElement.selectionStart == this.inputCurrencyElement.value.length)
-        }
-      return false;
+        return false;
       }
     }
     else if (keyboardEvent.key == "Backspace") {
-      let charBeforeCursor = this.inputCurrencyElement.value.charAt(this.inputCurrencyElement.selectionStart - 1);
-      if (charBeforeCursor == ".") {
-        // treat "Backspace" as ArrowLeft
-        let newInsertionPoint = this.inputCurrencyElement.selectionStart - 1;
-        this.inputCurrencyElement.setSelectionRange(newInsertionPoint, newInsertionPoint);
+      if (this.inputCurrencyElement.selectionStart <= indexOfDecimalPoint) {
+        // in interger part
+        return true; // else let "Backspace" pass through
+      }
+      else {
+        // in fraction part
+        let targetSubstr = this.inputCurrencyElement.value.substring(indexOfDecimalPoint);
+        if (this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 1) {
+          // treat "Backspace" as ArrowLeft
+          this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint, indexOfDecimalPoint);
+        }
+        else if (this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 2) {
+          let replacementSubstr = "." + this.inputCurrencyElement.value.charAt(indexOfDecimalPoint + 2) + "0";
+          this.inputCurrencyElement.value = this.inputCurrencyElement.value.replace(targetSubstr, replacementSubstr);
+          this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint + 1, indexOfDecimalPoint + 1);
+        }
+        else {
+          // (this.inputCurrencyElement.selectionStart == indexOfDecimalPoint + 3)
+          let replacementSubstr = "." + this.inputCurrencyElement.value.charAt(indexOfDecimalPoint + 1) + "0";
+          this.inputCurrencyElement.value = this.inputCurrencyElement.value.replace(targetSubstr, replacementSubstr);
+          this.inputCurrencyElement.setSelectionRange(indexOfDecimalPoint + 2, indexOfDecimalPoint + 2);
+        }
         return false; // don't let "Backspace" pass through
       }
-      return true; // else let "Backspace" pass through
     }
     else if (keyboardEvent.key == "Enter" ||
       keyboardEvent.key == "Tab" ||
@@ -185,7 +194,7 @@ export class AuInputCurrency {
     }
     if (keyboardEvent.key == "Enter") {
       this.inputCurrencyElement.blur();
-      return;
+      return false;
     }
     if (keyboardEvent.key == "Escape") {
       this.inputCurrencyElement.value = this.wellformedFloatString(this.originalInputValue);
@@ -193,7 +202,7 @@ export class AuInputCurrency {
       return;
     }
   }
-  wellformedFloatString(formattedAmtString: string): string {
+  wellformedFloatString(formattedAmtString): string {
     let floatString = formattedAmtString;
     // remove any commas
     let indexOfComma: number;

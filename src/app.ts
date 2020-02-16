@@ -3,5 +3,6 @@ export class App {
 
   onInputDone(newCurrencyAmt): void {
     this.aCurrencyAmt = newCurrencyAmt;
+    // Follow the above with any other code needed to act on the updated currency amount.
   }
 }

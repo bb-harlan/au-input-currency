@@ -8,23 +8,37 @@
     h2 {
       margin-left: 4pc;
     }
-    p, label {
+    p, label, pre {
       margin-left: 6pc;
     }
-    .font {
-      font-family: serif;
+    .defaultFont {
+      font-family: Helvetica, Arial;
+    }
+    .codeFont {
+      font-family: courier, monospace;
       font-size: medium;
     }
     .rightAlign {
       text-align: right;
     }
   </style>
-  <h1>Aurelia <span style="font-family: courier;">au-input-currency</span> custom element</h1>
-  <h2>Input data source in view-model (i.e., <span style="font-family: courier;">value.to-view=aCurrencyAmt</span>)</h2>
+  <h1 class="defaultFont">Aurelia custom component for user input of a currency amount</h1>
+  <h2 class="defaultFont">Input data source in view-model</h2>
   <p style="font-family: courier;">aCurrencyAmt: number = ${aCurrencyAmt};</p>
-  <h2>Aurelia custom currency input component in view</h2>
+  <h2 class="defaultFont"> HTML coding for the custom element in the view</h2>
+  <pre class="codeFont">
+&lt;label&gt;Currency amount:
+  &lt;au-input-currency
+      classes-string.one-time="'defaultFont rightAlign'"
+      max-length.one-time="15"
+      currency-amt.to-view="aCurrencyAmt"
+      on-updated-callback.call="onInputDone(newCurrencyAmt)"&gt;
+  &lt;/au-input-currency&gt;
+&lt;/label&gt;
+  </pre>
+  <h2 class="defaultFont">What the user sees and can interact with (try it)</h2>
   <label>Currency amount:
-    <au-input-currency classes-string.one-time="'font rightAlign'"
+    <au-input-currency classes-string.one-time="'codeFont rightAlign'"
                        max-length.one-time="15"
                        currency-amt.to-view="aCurrencyAmt"
                        on-updated-callback.call="onInputDone(newCurrencyAmt)">

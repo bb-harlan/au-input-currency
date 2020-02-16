@@ -1,4 +1,4 @@
-import {valueConverter, inject} from "aurelia-framework";
+import {valueConverter} from "aurelia-framework";
 
 @valueConverter("auCurrencyConverter")
 export class AuCurrencyConverter {
