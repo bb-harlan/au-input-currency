@@ -7,7 +7,7 @@ export class AuInputCurrency {
   @bindable isReadonly: boolean = false;
   @bindable isDisabled: boolean = false;
   @bindable currencyAmt: number = 0.00;
-  @bindable onUpdatedCallback: Function; // callback function
+  @bindable onUserChangedCurrencyAmt: Function; // callback function
   @bindable maxLength: number;
 
   /* element.ref properties */
@@ -20,7 +20,6 @@ export class AuInputCurrency {
   constructor() {
   }
   onFocus(): void {
-    console.log(`\n*** in onFocus() ***************`);
     this.originalInputValue = this.inputCurrencyElement.value;
     this.inputCurrencyElement.value = this.wellformedFloatString(this.originalInputValue);
     this.inputCurrencyElement.setSelectionRange(0, 0);
@@ -28,19 +27,17 @@ export class AuInputCurrency {
     // this.originalInsertionPoint = this.inputCurrencyElement.selectionStart;
   }
   onBlur(): void {
-    console.log(`\n*** in onBlur() ***************`);
     let newCurrencyAmt = parseFloat(this.inputCurrencyElement.value);
     if (newCurrencyAmt == this.originalCurrencyAmt) {
       // user did not change the input
-      this.inputCurrencyElement.value = this.originalInputValue; // formatted string
+      this.inputCurrencyElement.value = this.originalInputValue; // restore value to formatted string
     }
     else {
       // call the callback function passing the user-updated currency amount
-      this.onUpdatedCallback({newCurrencyAmt: newCurrencyAmt});
+      this.onUserChangedCurrencyAmt({newCurrencyAmt: newCurrencyAmt});
     }
   }
   onKeydown(keyboardEvent) {
-    console.log(`\n*** keyboardEvent.type: "${keyboardEvent.type}"; ***************`);
     let indexOfDecimalPoint = this.inputCurrencyElement.value.indexOf(".");
     if (keyboardEvent.key >= "0" && keyboardEvent.key <= "9") {
       if (this.inputCurrencyElement.selectionStart <= indexOfDecimalPoint) {
@@ -179,7 +176,6 @@ export class AuInputCurrency {
     */
   }
   onKeyup(keyboardEvent) {
-    console.log(`\n*** keyboardEvent.type: "${keyboardEvent.type}"; ***************`);
     let indexOfDecimalPoint: number;
     if (this.inputCurrencyElement.value.length == 0) {
       this.inputCurrencyElement.value = ".00";

@@ -15,33 +15,58 @@
       font-family: Helvetica, Arial;
     }
     .codeFont {
-      font-family: courier, monospace;
+      font-family: Courier, Monospaced;
       font-size: medium;
     }
     .rightAlign {
       text-align: right;
     }
   </style>
-  <h1 class="defaultFont">Aurelia custom component for user input of a currency amount</h1>
-  <h2 class="defaultFont">Input data source in view-model</h2>
-  <p style="font-family: courier;">aCurrencyAmt: number = ${aCurrencyAmt};</p>
-  <h2 class="defaultFont"> HTML coding for the custom element in the view</h2>
+  <h1 class="defaultFont">Demo: an Aurelia custom component <br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;for user input or editing of a currency amount</h1>
+  <hr>
+  <h2 class="defaultFont">What the user sees and can interact with: (Try it.)</h2>
+  <label>Currency amount:
+    <au-input-currency classes-string.one-time="'codeFont rightAlign'"
+                       max-length.one-time="15"
+                       currency-amt.to-view="aCurrencyAmt"
+                       on-user-changed-currency-amt.call="userChangedCurrencyAmt(newCurrencyAmt)">
+    </au-input-currency>
+  </label>
+  <h2 class="defaultFont"> HTML coding of the custom element in the view:</h2>
   <pre class="codeFont">
 &lt;label&gt;Currency amount:
   &lt;au-input-currency
       classes-string.one-time="'defaultFont rightAlign'"
       max-length.one-time="15"
       currency-amt.to-view="aCurrencyAmt"
-      on-updated-callback.call="onInputDone(newCurrencyAmt)"&gt;
+      on-user-changed-currency-amt.call="userChangedCurrencyAmt(newCurrencyAmt)"&gt;
   &lt;/au-input-currency&gt;
 &lt;/label&gt;
   </pre>
-  <h2 class="defaultFont">What the user sees and can interact with (try it)</h2>
-  <label>Currency amount:
-    <au-input-currency classes-string.one-time="'codeFont rightAlign'"
-                       max-length.one-time="15"
-                       currency-amt.to-view="aCurrencyAmt"
-                       on-updated-callback.call="onInputDone(newCurrencyAmt)">
-    </au-input-currency>
-  </label>
+  <h2 class="defaultFont">The view-model:</h2>
+  <pre class="codeFont">
+export class App {
+
+  aCurrencyAmt: number = <span style="color: red; font-weight: bold;">${aCurrencyAmt}</span>; // the data source for the custom component
+  /*
+  * Watch the value of the above property change
+  * if you interact with the custom component to
+  * enter or edit the currency amt.
+  */
+
+  userChangedCurrencyAmt(newCurrencyAmt): void {
+    /*
+    * The component calls this function when the custom component loses focus
+    * if and only if user interaction with the custom component has changed
+    * the currency amt. Otherwise, this funcion is not called.
+    */
+    this.aCurrencyAmt = newCurrencyAmt; // update data source with the user-changed currency amt
+    /*
+    * Follow the above with any additional code needed for
+    * reacting to the change in the value of the data source--
+    * e.g., updating a total to which the data source contributes.
+    */
+  }
+}
+  </pre>
 </template>
