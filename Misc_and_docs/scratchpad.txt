@@ -1,0 +1,47 @@
+
+au-component: au-grid-bchg-cells-heading
+au-view:      au-grid-bchg-cells-spacer
+au-component: au-grid-bchg-cells
+au-component: au-grid-bchg-cells-editing
+au-component: au-grid-bchg-cells-total
+
+
+<au-tran-bchg-header-row>
+  <au-bchg-column-ops>
+  </au-bchg-column-ops>
+  <au-bchg-column-data>
+  </au-bchg-column-data>
+</au-tran-bchg-row>
+
+<au-tran-bchg-row>
+  <au-bchg-column-ops>
+  </au-bchg-column-ops>
+  <au-bchg-column-data>
+  </au-bchg-column-data>
+</au-tran-bchg-row>
+
+<au-tran-bchg-eol-row>
+  <au-bchg-column-ops>
+  </au-bchg-column-ops>
+  <au-bchg-column-data>  /* transparent */
+  </au-bchg-column-data>
+</au-tran-bchg-eol-row>
+
+<au-tran-bchg-totals-row>
+  <au-bchg-column-ops>
+  </au-bchg-column-ops>
+  <au-bchg-column-data>
+  </au-bchg-column-data>
+</au-tran-bchg-totals-row>
+
+<au-input-currency
+  float-currency-amt.bind="bchg.amt"
+  on-completed.call="inputCurrencyCompleted(newCurrencyAmt)">
+<au-input-currency>
+
+<input type=text
+       value.bind="formattedCurrencyAmt"
+       selection-start.bind="formattedCursorPos"
+       >
+
+

@@ -1,0 +1,35 @@
+
+Flexbox (container)
+=============
+
+CSS display property
+    -------
+    flex
+    inline-flex
+
+CSS flex-direction property
+    --------------
+    row (default) /* main axis is horizonal, cross axis is vertical */
+    row-reverse
+    column        /* main axis is vertical, cross axis is horizonal */
+    column-reverse
+
+CSS align-items (on flex cross axis) property
+    -----------
+    stretch (default)
+    flex-start /* cross start */
+    flex-end   /* cross end */
+    center
+    baseline
+
+CSS align-self (on cross axis) property of a flex item (overrides align-items of parent flex container)
+
+CSS justify-content (on flex main axis)
+    ---------------
+    flex-start (default) /* main start */
+    flex-end             /* main end */
+    center
+    space-around
+    space-between
+    space-evenly
+
