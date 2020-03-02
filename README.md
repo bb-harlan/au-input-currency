@@ -7,7 +7,7 @@ The Aurelia implementation is provided by the following view and view-model pair
 au-input-currency.html
 au-input-currency.ts
 ```
-the implementation requires and includes the following Aurelia converter.
+The implementation requires and includes the following Aurelia converter.
 ```
 au-currency-converter.ts
 ```
