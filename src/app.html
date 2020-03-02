@@ -21,9 +21,9 @@
       text-align: right;
     }
   </style>
-  <h1 class="defaultFont">Demo: an Aurelia custom component <br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;for user input/editing of a currency amount</h1>
+  <h1 class="defaultFont"><span style="font-family: Courier, Monospaced;">&lt;au-input-currency&gt;</span> demo</h1>
   <hr>
-  <h2 class="defaultFont">What the user sees and can interact with: (Try it.)</h2>
+  <h2 class="defaultFont">What the user sees and can interact with:</h2>
   <label>Currency amount:
     <au-input-currency classes-string.one-time="'codeFont rightAlign'"
                        max-length.one-time="15"
@@ -31,7 +31,8 @@
                        on-user-changed-currency-amt.call="userChangedCurrencyAmt(newCurrencyAmt)">
     </au-input-currency>
   </label>
-  <h2 class="defaultFont"> In this demo's view, the HTML coding of the custom element:</h2>
+  <span style="margin-left: 1pc; color: red; font-weight: bold; font-size: large;">(Try it.)</span>
+  <h2 class="defaultFont">The HTML coding of the custom element in this demo's view:</h2>
   <pre class="codeFont">
 &lt;label&gt;Currency amount:
   &lt;au-input-currency
@@ -47,24 +48,28 @@
 export class App {
 
   aCurrencyAmt: number = <span style="color: red; font-weight: bold; font-size: large;">${aCurrencyAmt}</span>; // the data source for the custom component
-  /*
-  * Watch the value of the above property change if your interaction
-  * with the custom component changes the currency amount.
-  * (Note: the change doesn't happen until the component loses focus.)
-  */
+     /*
+      * User interaction with the custom element can change the element's value.
+      * When the custom element loses focus (by tabbing or clicking away
+      * from it or by pressing the Enter key), the change to its value is pushed
+      * to the data source by the following callback function.
+      * Try it to see that happen.
+      */
 
   userChangedCurrencyAmt(newCurrencyAmt): void {
-    /*
-    * The component calls this function when the custom component loses focus
-    * if and only if user interaction with the custom component has changed
-    * the currency amt. Otherwise, this funcion is not called.
-    */
+     /*
+      * The component calls this function when the custom component loses focus
+      * if and only if user interaction with the custom component has changed
+      * the currency amount. Otherwise, this function is not called.
+      */
+
     this.aCurrencyAmt = newCurrencyAmt; // update data source with the user-changed currency amt
-    /*
-    * Follow the above with any additional code needed for
-    * reacting to the change in the value of the data source--
-    * e.g., updating a total to which the data source contributes.
-    */
+
+     /*
+      * Follow the above with any additional code needed for
+      * reacting to the change in the value of the data source--
+      * e.g., updating a total to which the data source contributes.
+      */
   }
 }
   </pre>
