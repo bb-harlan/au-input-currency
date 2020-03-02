@@ -12,4 +12,4 @@ the implementation requires and includes the following Aurelia converter.
 au-currency-converter.ts
 ```
 
-These files are included in the context of this project which is a demo of their use. You cam see the GitHub Page for this demo at [**\<au-input-cufrrency> Demo**](https://https://bb-harlan.github.io/au-input-currency/).
+These files are included in the context of this project which is a demo of their use. You cam see the GitHub Page for this demo at [**\<au-input-cufrrency> Demo**](https://bb-harlan.github.io/au-input-currency/).
