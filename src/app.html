@@ -21,7 +21,7 @@
       text-align: right;
     }
   </style>
-  <h1 class="defaultFont">Demo: an Aurelia custom component <br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;for user input or editing of a currency amount</h1>
+  <h1 class="defaultFont">Demo: an Aurelia custom component <br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;for user input/editing of a currency amount</h1>
   <hr>
   <h2 class="defaultFont">What the user sees and can interact with: (Try it.)</h2>
   <label>Currency amount:
@@ -31,7 +31,7 @@
                        on-user-changed-currency-amt.call="userChangedCurrencyAmt(newCurrencyAmt)">
     </au-input-currency>
   </label>
-  <h2 class="defaultFont"> In this demo's view, the HTML coding of the custom element</h2>
+  <h2 class="defaultFont"> In this demo's view, the HTML coding of the custom element:</h2>
   <pre class="codeFont">
 &lt;label&gt;Currency amount:
   &lt;au-input-currency
@@ -46,11 +46,11 @@
   <pre class="codeFont">
 export class App {
 
-  aCurrencyAmt: number = <span style="color: red; font-weight: bold;">${aCurrencyAmt}</span>; // the data source for the custom component
+  aCurrencyAmt: number = <span style="color: red; font-weight: bold; font-size: large;">${aCurrencyAmt}</span>; // the data source for the custom component
   /*
-  * Watch the value of the above property change
-  * if you interact with the custom component to
-  * enter or edit the currency amt.
+  * Watch the value of the above property change if your interaction
+  * with the custom component changes the currency amount.
+  * (Note: the change doesn't happen until the component loses focus.)
   */
 
   userChangedCurrencyAmt(newCurrencyAmt): void {
